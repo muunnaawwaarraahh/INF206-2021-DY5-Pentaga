@@ -1,10 +1,10 @@
 <?php 
 session_start();
 
-if( isset($_SESSION["login"]) ) {
-  header("Location: index.php");
-  exit;
-}
+// if( isset($_SESSION["login"]) ) {
+//   header("Location: ../warga_page/index.php");
+//   exit;
+// }
 
 require 'functions.php';
 
@@ -21,11 +21,18 @@ if( isset($_POST["login"]) ) {
     // cek password
     $row = mysqli_fetch_assoc($result);
     if( password_verify($password, $row["password"]) ) {
-      // set session
-      $_SESSION["login"] = true;
 
-      //header("Location: index.php");
-      exit;
+      // set session
+      // $_SESSION["login"] = true;
+      if ($password === 'admin' && $noKK === 'admin'){
+        header("Location: /RPL/admin/home.php");
+        exit;
+      } else {
+        header("Location: /RPL/warga/home.php");
+        exit;
+      }
+
+      
     }
   }
 
@@ -39,22 +46,22 @@ if( isset($_POST["login"]) ) {
 <html>
   <head>
     <title>Login Form</title>
-    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="asset/css/style.css" />
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
   <body>
 
-    <img class="wave" src="img/rumah5.png" />
+    <img class="wave" src="asset/img/rumah5.png" />
     <div class="container">
       <div class="img">
-        <img src="img/pentaga5.png" />
+        <img src="asset/img/pentaga5.png" />
       </div>
           <div class="login-content">
 
       <form action="" method="post">
-          <img src="img/logo.png" />
+          <img src="asset/img/logo.png" />
           <h2 class="title">Welcome</h2>
 
           <div class="input-div one">
@@ -78,17 +85,17 @@ if( isset($_POST["login"]) ) {
             </div>
           </div>
 
-          <a href="#">Buat akun?</a>
+          <a href="/RPL/login_register/registrasi.php">Buat akun?</a>
          <!--  <input type="submit" class="btn" value="Login" name="login" /> -->
             <?php if( isset($error) ) : ?>
             <p style="color: red; font-style: italic; font-size: 12px;">Nomor Kartu Keluarga / Password salah</p>
             <?php endif; ?>
 
-          <button type="submit" class="btn" name="login">Masuk</button>
+          <button type="submit" class="btn" name="login" >Masuk</button>
 
         </form>
       </div>
     </div>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="asset/js/main.js"></script>
   </body>
 </html>
